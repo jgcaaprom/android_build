@@ -758,6 +758,9 @@ ifneq (true,$(TARGET_USERIMAGES_SPARSE_EXT_DISABLED))
 endif
 
 INTERNAL_USERIMAGES_DEPS :=
+ifneq ($(TARGET_TRANSPARENT_COMPRESSION_METHOD),)
+  INTERNAL_TRANSPARENT_COMPRESSION_METHOD := $(TARGET_TRANSPARENT_COMPRESSION_METHOD)
+endif
 ifeq ($(INTERNAL_USERIMAGES_USE_EXT),true)
 INTERNAL_USERIMAGES_DEPS += $(MKEXTUSERIMG) $(MAKE_EXT4FS) $(E2FSCK)
 endif
@@ -809,6 +812,7 @@ $(if $(BOARD_VENDORIMAGE_JOURNAL_SIZE),$(hide) echo "vendor_journal_size=$(BOARD
 $(if $(BOARD_OEMIMAGE_PARTITION_SIZE),$(hide) echo "oem_size=$(BOARD_OEMIMAGE_PARTITION_SIZE)" >> $(1))
 $(if $(BOARD_OEMIMAGE_JOURNAL_SIZE),$(hide) echo "oem_journal_size=$(BOARD_OEMIMAGE_JOURNAL_SIZE)" >> $(1))
 $(if $(INTERNAL_USERIMAGES_SPARSE_EXT_FLAG),$(hide) echo "extfs_sparse_flag=$(INTERNAL_USERIMAGES_SPARSE_EXT_FLAG)" >> $(1))
+$(if $(INTERNAL_TRANSPARENT_COMPRESSION_METHOD),$(hide) echo "transparent_compression_method=$(INTERNAL_TRANSPARENT_COMPRESSION_METHOD)" >> $(1))
 $(if $(mkyaffs2_extra_flags),$(hide) echo "mkyaffs2_extra_flags=$(mkyaffs2_extra_flags)" >> $(1))
 $(hide) echo "selinux_fc=$(SELINUX_FC)" >> $(1)
 $(if $(PRODUCTS.$(INTERNAL_PRODUCT).PRODUCT_SUPPORTS_BOOT_SIGNER),$(hide) echo "boot_signer=$(PRODUCTS.$(INTERNAL_PRODUCT).PRODUCT_SUPPORTS_BOOT_SIGNER)" >> $(1))

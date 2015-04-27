@@ -29,6 +29,12 @@ ifdef CXX_WRAPPER
   endif
 endif
 
+# ArchiDroid
+include $(BUILD_SYSTEM)/jgcaap.mk
+CLANG_CONFIG_EXTRA_CFLAGS += $(NEW_CLANG_CFLAGS)
+CLANG_CONFIG_EXTRA_CPPFLAGS += $(NEW_CLANG_CPPFLAGS)
+CLANG_CONFIG_EXTRA_LDFLAGS += $(NEW_CLANG_LDFLAGS)
+
 # Clang flags for all host or target rules
 CLANG_CONFIG_EXTRA_ASFLAGS :=
 CLANG_CONFIG_EXTRA_CFLAGS :=
@@ -60,7 +66,8 @@ CLANG_CONFIG_UNKNOWN_CFLAGS := \
   -fno-canonical-system-headers \
   -fmodulo-sched \
   -fmodulo-sched-allow-regmoves \
-  -mvectorize-with-neon-quad
+  -mvectorize-with-neon-quad \
+   $(NEW_CLANG_UNKNOWN_FLAGS)
 
 # Clang flags for all host rules
 CLANG_CONFIG_HOST_EXTRA_ASFLAGS :=

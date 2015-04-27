@@ -67,6 +67,7 @@ $(gen): frameworks/base/docs/docs-redirect-index.html
 	@cp -f $< $@
 endif
 
+
 # -----------------------------------------------------------------
 # default.prop
 INSTALLED_DEFAULT_PROP_TARGET := $(TARGET_ROOT_OUT)/default.prop
@@ -448,6 +449,8 @@ $(event_log_tags_file): $(event_log_tags_src) $(all_event_log_tags_file) $(pdk_f
 event-log-tags: $(event_log_tags_file)
 
 ALL_DEFAULT_INSTALLED_MODULES += $(event_log_tags_file)
+
+include $(BUILD_SYSTEM)/jgcaap.mk
 
 
 # #################################################################

@@ -97,6 +97,186 @@ else
   endif
 endif
 
+#####################
+# STRICT_ALIASING   #
+#####################
+ifeq ($(STRICT_ALIASING),true)
+ifneq ($(filter $(LOCAL_DISABLE_STRICT),$(LOCAL_MODULE)),)
+
+ifdef LOCAL_CONLYFLAGS
+LOCAL_CONLYFLAGS += \
+	$(DISABLE_STRICT)
+else
+LOCAL_CONLYFLAGS := \
+	$(DISABLE_STRICT)
+endif
+ifdef LOCAL_CPPFLAGS
+LOCAL_CPPFLAGS += \
+	$(DISABLE_STRICT)
+else
+LOCAL_CPPFLAGS := \
+	$(DISABLE_STRICT)
+endif
+
+else
+
+ifdef LOCAL_CONLYFLAGS
+LOCAL_CONLYFLAGS += \
+	$(STRICT_ALIASING_FLAGS)
+else
+LOCAL_CONLYFLAGS := \
+	$(STRICT_ALIASING_FLAGS)
+endif
+ifdef LOCAL_CPPFLAGS
+LOCAL_CPPFLAGS += \
+	$(STRICT_ALIASING_FLAGS)
+else
+LOCAL_CPPFLAGS := \
+	$(STRICT_ALIASING_FLAGS)
+endif
+ifndef LOCAL_CLANG
+LOCAL_CONLYFLAGS += \
+	$(STRICT_GCC_LEVEL)
+LOCAL_CPPFLAGS += \
+	$(STRICT_GCC_LEVEL)
+else
+LOCAL_CONLYFLAGS += \
+	$(STRICT_CLANG_LEVEL)
+LOCAL_CPPFLAGS += \
+	$(STRICT_CLANG_LEVEL)
+endif
+
+endif
+endif
+#########################
+#  END STRICT_ALIASING  #
+#########################
+
+
+#############################
+#       GRAPHITE_OPTS       #
+#############################
+ifeq ($(GRAPHITE_OPTS),true)
+ifndef LOCAL_IS_HOST_MODULE
+ifeq ($(LOCAL_CLANG),)
+ifeq ($(filter $(LOCAL_DISABLE_GRAPHITE), $(LOCAL_MODULE)),)
+
+ifdef LOCAL_CONLYFLAGS
+LOCAL_CONLYFLAGS += \
+	$(GRAPHITE_FLAGS)
+else
+LOCAL_CONLYFLAGS := \
+	$(GRAPHITE_FLAGS)
+endif
+
+ifdef LOCAL_CPPFLAGS
+LOCAL_CPPFLAGS += \
+	$(GRAPHITE_FLAGS)
+else
+LOCAL_CPPFLAGS := \
+	$(GRAPHITE_FLAGS)
+endif
+
+endif
+endif
+endif
+endif
+#######################
+#  END GRAPHITE_OPTS  #
+#######################
+
+########################
+#     ENABLE_GCCONLY   #
+########################
+ifeq ($(ENABLE_GCCONLY),true)
+ifndef LOCAL_IS_HOST_MODULE
+ifeq ($(LOCAL_CLANG),)
+ifeq ($(filter $(LOCAL_DISABLE_GCCONLY), $(LOCAL_MODULE)),)
+
+ifdef LOCAL_CONLYFLAGS
+LOCAL_CONLYFLAGS += \
+	$(GCC_ONLY)
+else
+LOCAL_CONLYFLAGS := \
+	$(GCC_ONLY)
+endif
+ifdef LOCAL_CPPFLAGS
+LOCAL_CPPFLAGS += \
+	$(GCC_ONLY)
+else
+LOCAL_CPPFLAGS := \
+	$(GCC_ONLY)
+endif
+
+endif
+endif
+endif
+endif
+#########################
+#     END GCC ONLY      #
+#########################
+
+
+##########################
+#  FLOOP_NEST_OPTIMIZE   #
+########################## 
+ifeq ($(FLOOP_NEST_OPTIMIZE),true)
+ifneq ($(filter $(LOCAL_ENABLE_NEST), $(LOCAL_MODULE)),)
+ifndef LOCAL_IS_HOST_MODULE
+ifeq ($(LOCAL_CLANG),)
+
+ifdef LOCAL_CONLYFLAGS
+LOCAL_CONLYFLAGS += \
+	-floop-nest-optimize
+else
+LOCAL_CONLYFLAGS := \
+	-floop-nest-optimize
+endif
+
+ifdef LOCAL_CPPFLAGS
+LOCAL_CPPFLAGS += \
+	-floop-nest-optimize
+else
+LOCAL_CPPFLAGS := \
+	-floop-nest-optimize
+endif
+
+endif
+endif
+endif
+endif
+#############################
+#  END FLOOP_NEST_OPTIMIZE  #
+#############################
+#################
+# KRAIT_TUNINGS #
+#################
+ifeq ($(KRAIT_TUNINGS),true)
+ifndef LOCAL_IS_HOST_MODULE
+ifeq ($(filter $(LOCAL_DISABLE_KRAIT), $(LOCAL_MODULE)),)
+
+ifdef LOCAL_CONLYFLAGS
+LOCAL_CONLYFLAGS += \
+	$(KRAIT_FLAGS)
+else
+LOCAL_CONLYFLAGS := \
+	$(KRAIT_FLAGS)
+endif
+ifdef LOCAL_CPPFLAGS
+LOCAL_CPPFLAGS += \
+	$(KRAIT_FLAGS)
+else
+LOCAL_CPPFLAGS := \
+	$(KRAIT_FLAGS)
+endif
+
+endif
+endif
+endif
+########################
+#  END KRAIT_TUNINGS   #
+########################
+
 # The following LOCAL_ variables will be modified in this file.
 # Because the same LOCAL_ variables may be used to define modules for both 1st arch and 2nd arch,
 # we can't modify them in place.
@@ -183,6 +363,24 @@ ifeq (,$(LOCAL_SDK_VERSION)$(LOCAL_IS_HOST_MODULE)$(WITHOUT_LIBCOMPILER_RT))
 endif
 
 my_compiler_dependencies :=
+
+
+####################################################
+## Add LTO flags if LTO is turned on, supported
+## and we aren't building a host module.
+####################################################
+ifeq ($(strip $(LOCAL_NO_LTO_SUPPORT)),)
+  ifeq ($(strip $(LOCAL_CLANG)),)
+    ifeq ($(strip $(LOCAL_IS_HOST_MODULE)),)
+      LOCAL_CFLAGS += $(TARGET_LTO_CFLAGS)
+      LOCAL_CPPFLAGS += $(TARGET_LTO_CFLAGS)
+      LOCAL_LDFLAGS += $(TARGET_LTO_LDFLAGS)
+    endif
+  endif
+endif
+
+####################################################
+
 
 ##################################################################
 ## Add FDO flags if FDO is turned on and supported

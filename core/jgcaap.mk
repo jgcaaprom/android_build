@@ -575,3 +575,38 @@ WEBCHROMIUM_STATIC_LIBRARIES := \
     third_party_WebKit_public_blink_gyp \
     third_party_WebKit_public_blink_resources_gyp \
 
+#############################
+#       GRAPHITE_OPTS #
+#############################
+LOCAL_DISABLE_GRAPHITE := \
+    libunwind \
+    libFFTEm \
+    libicui18n \
+    libskia \
+    libvpx \
+    libmedia_jni \
+    libstagefright_mp3dec \
+    libart \
+    libstagefright_amrwbenc \
+    libpdfium \
+    libpdfiumcore \
+    libwebviewchromium \
+    libwebviewchromium_loader \
+    libwebviewchromium_plat_support \
+    libjni_filtershow_filters \
+    fio \
+    libwebrtc_spl \
+    libpcap \
+    libsigchain \
+    libFraunhoferAAC GRAPHITE_FLAGS := \
+    -fgraphite \
+    -fgraphite-identity \
+    -floop-flatten \
+    -floop-parallelize-all \
+    -ftree-loop-linear \
+    -floop-interchange \
+    -floop-strip-mine \
+    -floop-block
+#######################
+#  END GRAPHITE_OPTS #
+#######################

@@ -36,13 +36,23 @@ endif
 
 # Decouple NDK library selection with platform compiler version
 
-ifeq ($(strip $(LOCAL_MODULE)),camera.bacon)
-$(combo_2nd_arch_prefix)TARGET_NDK_GCC_VERSION := 4.9
+ifeq ($(LOCAL_SHARED_LIBRARIES),$(camerabacon))
 $(combo_2nd_arch_prefix)TARGET_GCC_VERSION := 4.9
+$(combo_2nd_arch_prefix)TARGET_NDK_GCC_VERSION := 4.9
 else
 $(combo_2nd_arch_prefix)TARGET_GCC_VERSION := 5.1
-$(combo_2nd_arch_prefix)TARGET_NDK_GCC_VERSION := 5.1
+$(combo_2nd_arch_prefix)TARGET_NDK_GCC_VERSION := 4.9
 endif
+
+
+
+camerabacon = libhardware \
+liblog \
+libcamera_client \
+libutils \
+libcutils \
+libdl
+
 
 TARGET_ARCH_SPECIFIC_MAKEFILE := $(BUILD_COMBOS)/arch/$(TARGET_$(combo_2nd_arch_prefix)ARCH)/$(TARGET_$(combo_2nd_arch_prefix)ARCH_VARIANT).mk
 ifeq ($(strip $(wildcard $(TARGET_ARCH_SPECIFIC_MAKEFILE))),)

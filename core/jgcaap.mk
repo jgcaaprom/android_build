@@ -22,7 +22,7 @@ NEW_GCC_LDFLAGS := -Wl,--sort-common
 NEW_CLANG_CFLAGS := -O3 -Qunused-arguments -Wno-unknown-warning-option
 
 # Flags passed to all C targets compiled with CLANG
-NEW_CLANG_CPPFLAGS := $(NEW_CLANG_CFLAGS) -std=gnu++11 
+NEW_CLANG_CPPFLAGS := $(NEW_CLANG_CFLAGS)
 
 # Flags passed to linker (ld) of all C and C targets compiled with CLANG
 NEW_CLANG_LDFLAGS := -Wl,--sort-common

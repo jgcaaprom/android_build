@@ -10,7 +10,7 @@ NEW_GCC_CFLAGS := -O3 -fgcse-las -fivopts -fomit-frame-pointer -fsection-anchors
 
 
 # Flags passed to all C targets compiled with GCC
-NEW_GCC_CPPFLAGS := $(NEW_GCC_CFLAGS)
+NEW_GCC_CPPFLAGS := $(NEW_GCC_CFLAGS) 
 
 # Flags passed to linker (ld) of all C and C targets compiled with GCC
 NEW_GCC_LDFLAGS := -Wl,--sort-common

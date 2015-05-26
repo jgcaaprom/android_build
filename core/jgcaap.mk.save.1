@@ -10,7 +10,7 @@ NEW_GCC_CFLAGS := -O3 -fgcse-las -fivopts -fomit-frame-pointer -fsection-anchors
 
 
 # Flags passed to all C targets compiled with GCC
-NEW_GCC_CPPFLAGS := $(NEW_GCC_CFLAGS) -std=gnu89
+NEW_GCC_CPPFLAGS := $(NEW_GCC_CFLAGS) 
 
 # Flags passed to linker (ld) of all C and C targets compiled with GCC
 NEW_GCC_LDFLAGS := -Wl,--sort-common
@@ -22,7 +22,7 @@ NEW_GCC_LDFLAGS := -Wl,--sort-common
 NEW_CLANG_CFLAGS := -O3 -Qunused-arguments -Wno-unknown-warning-option
 
 # Flags passed to all C targets compiled with CLANG
-NEW_CLANG_CPPFLAGS := $(NEW_CLANG_CFLAGS) -std=gnu89
+NEW_CLANG_CPPFLAGS := $(NEW_CLANG_CFLAGS)
 
 # Flags passed to linker (ld) of all C and C targets compiled with CLANG
 NEW_CLANG_LDFLAGS := -Wl,--sort-common
@@ -222,6 +222,7 @@ LOCAL_DISABLE_STRICT := \
     third_party_webrtc_modules_rtp_rtcp_gyp \
     components_data_reduction_proxy_browser_gyp \
     libunwind \
+    libc_bionic \
     libc_malloc \
     e2fsck \
     mke2fs \
@@ -243,6 +244,7 @@ LOCAL_DISABLE_STRICT := \
     ip \
     libuclibcrpc \
     libpdfiumcore \
+    libandroid_runtime \
     libpdfiumcore \
     libpdfium \
     bluetooth.default \
@@ -262,13 +264,14 @@ LOCAL_DISABLE_STRICT := \
     net_net_gyp \
     libstagefright_webm \
     libaudioflinger \
-    libmediaplayerservice \
     libstagefright_avcenc \
     libstagefright_avc_common \
     libstagefright_httplive \
     libstagefright_rtsp \
     sdcard \
+    ping \
     libnetlink \
+    ping6 \
     libfdlibm \
     libvariablespeed \
     librtp_jni \
@@ -281,6 +284,8 @@ LOCAL_DISABLE_STRICT := \
     libqcomvisualizer \
     libvisualizer \
     libutils \
+    libandroidfw \
+    dnsmasq \
     static_busybox \
     libstagefright_foundation \
     content_content_renderer_gyp \
@@ -308,7 +313,7 @@ LOCAL_DISABLE_STRICT := \
     libjavacore \
     camera.bacon \
     libmmcamera_interface \
-    tcpdump
+	tcpdump
 
 DISABLE_STRICT := \
     -fno-strict-aliasing
@@ -661,7 +666,6 @@ $($(combo_2nd_arch_prefix)TARGET_LTO_CFLAGS) -Wl,-flto
 
 LOCAL_DISABLE_LTO := \
 	libc \
-	libc_bionic \
 	libc_gdtoa \
 	libc_netbsd \
 	libc_freebsd \

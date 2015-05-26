@@ -1,16 +1,9 @@
-#Most of the ideas are from Archi I just used his organization to be easier to try out new flags as also his on. All this flag optimization come from his idea. where you can find more at: https://github.com/ArchiDroid/android_build/commit/a062cc61184950df02c39a038c5bfaef5a8b268c
-# General optimization level of target ARM compiled with GCC. Default: -O2
-NEW_GCC_CFLAGS_ARM := -O3
-
-# General optimization level of target THUMB compiled with GCC. Default: -Os
-NEW_GCC_CFLAGS_THUMB := -O3
-
 # Additional flags passed to all C targets compiled with GCC
 NEW_GCC_CFLAGS := -O3 -fgcse-las -fivopts -fomit-frame-pointer -fsection-anchors -ftracer -ftree-loop-im -ftree-loop-ivcanon -fweb -Wno-error=array-bounds -Wno-error=clobbered -Wno-error=maybe-uninitialized -Wno-error=strict-overflow -ffunction-sections -fdata-sections -mvectorize-with-neon-quad -frename-registers -fgcse-after-reload
 
 
 # Flags passed to all C targets compiled with GCC
-NEW_GCC_CPPFLAGS := $(NEW_GCC_CFLAGS) -std=gnu89
+NEW_GCC_CPPFLAGS := $(NEW_GCC_CFLAGS) 
 
 # Flags passed to linker (ld) of all C and C targets compiled with GCC
 NEW_GCC_LDFLAGS := -Wl,--sort-common
@@ -22,7 +15,7 @@ NEW_GCC_LDFLAGS := -Wl,--sort-common
 NEW_CLANG_CFLAGS := -O3 -Qunused-arguments -Wno-unknown-warning-option
 
 # Flags passed to all C targets compiled with CLANG
-NEW_CLANG_CPPFLAGS := $(NEW_CLANG_CFLAGS) -std=gnu89
+NEW_CLANG_CPPFLAGS := $(NEW_CLANG_CFLAGS)
 
 # Flags passed to linker (ld) of all C and C targets compiled with CLANG
 NEW_CLANG_LDFLAGS := -Wl,--sort-common

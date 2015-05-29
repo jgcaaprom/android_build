@@ -147,6 +147,9 @@ LOCAL_CPPFLAGS += \
 endif
 
 endif
+else
+LOCAL_CONLYFLAGS += -fno-strict-aliasing
+LOCAL_CPPFLAGS += -fno-strict-aliasing
 endif
 #########################
 #  END STRICT_ALIASING  #

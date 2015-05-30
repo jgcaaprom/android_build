@@ -186,9 +186,8 @@ KRAIT_FLAGS := \
     -mcpu=cortex-a15 \
     -mtune=cortex-a15 \
     -mfpu=neon \
-    -march=armv7-a \
-    -mfpu=vfpv4 \
-    -mfloat-abi=soft
+    -march=armv7-a 
+#    -mfpu=vfpv4 
 
 
 #####################

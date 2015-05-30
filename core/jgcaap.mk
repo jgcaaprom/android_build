@@ -3,10 +3,10 @@
 NEW_GCC_CFLAGS_ARM := -O3
 
 # General optimization level of target THUMB compiled with GCC. Default: -Os
-NEW_GCC_CFLAGS_THUMB := -O3
+NEW_GCC_CFLAGS_THUMB := -O3 -DNDEBUG  -fno-omit-frame-pointer -marm
 
 # Additional flags passed to all C targets compiled with GCC
-NEW_GCC_CFLAGS := -O3 -fgcse-las -fivopts -fomit-frame-pointer -fsection-anchors -ftracer -ftree-loop-im -ftree-loop-ivcanon -fweb -Wno-error=array-bounds -Wno-error=clobbered -Wno-error=maybe-uninitialized -Wno-error=strict-overflow -ffunction-sections -fdata-sections -mvectorize-with-neon-quad -frename-registers -fgcse-after-reload
+NEW_GCC_CFLAGS := -O3 -fgcse-las -fivopts -fomit-frame-pointer -fsection-anchors -ftracer -ftree-loop-im -ftree-loop-ivcanon -fweb -Wno-error=array-bounds -Wno-error=clobbered -Wno-error=maybe-uninitialized -Wno-error=strict-overflow -ffunction-sections -fdata-sections -mvectorize-with-neon-quad -frename-registers -fgcse-after-reload  -DNDEBUG  -fno-omit-frame-pointer 
 
 
 # Flags passed to all C targets compiled with GCC
@@ -19,13 +19,25 @@ NEW_GCC_LDFLAGS := -Wl,--sort-common
 # CLANG
 
 # Flags passed to all C targets compiled with CLANG
-NEW_CLANG_CFLAGS := -O3 -Qunused-arguments -Wno-unknown-warning-option
+NEW_CLANG_CFLAGS := -O3 -Qunused-arguments -Wno-unknown-warning-option -fpic \
+    -ffunction-sections \
+    -funwind-tables \
+    -fstack-protector \
+    -Wno-invalid-command-line-argument \
+    -Wno-unused-command-line-argument \
+    -no-canonical-prefixes \
+    -fno-integrated-as \
+    -mhard-float \
+    -D_NDK_MATH_NO_SOFTFP=1
 
 # Flags passed to all C targets compiled with CLANG
 NEW_CLANG_CPPFLAGS := $(NEW_CLANG_CFLAGS)
 
 # Flags passed to linker (ld) of all C and C targets compiled with CLANG
-NEW_CLANG_LDFLAGS := -Wl,--sort-common
+NEW_CLANG_LDFLAGS := -Wl,--sort-common -no-canonical-prefixes \
+    -Wl,--fix-cortex-a8 \
+    -Wl,--no-warn-mismatch \
+    -lm_hard
 
 # Flags that are used by GCC, but are unknown to CLANG. If you get "argument unused during compilation" error, add the flag here
 NEW_CLANG_UNKNOWN_FLAGS := \
@@ -54,7 +66,8 @@ NEW_CLANG_UNKNOWN_FLAGS := \
   -ftree-loop-im \
   -ftree-loop-ivcanon \
   -funsafe-loop-optimizations \
-  -fweb
+  -fweb \
+  -fno-omit-frame-pointer 
 
 
 ##########################

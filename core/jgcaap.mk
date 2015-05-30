@@ -13,7 +13,7 @@ NEW_GCC_CFLAGS := -O2 -fgcse-las -fivopts -fomit-frame-pointer -fsection-anchors
 NEW_GCC_CPPFLAGS := $(NEW_GCC_CFLAGS)
 
 # Flags passed to linker (ld) of all C and C targets compiled with GCC
-NEW_GCC_LDFLAGS := -Wl,-O1 -Wl,--as-needed
+NEW_GCC_LDFLAGS := -Wl,-O1 -Wl,--sort-common
 
 
 # CLANG
@@ -32,7 +32,7 @@ NEW_CLANG_CFLAGS := -O2 -Qunused-arguments -Wno-unknown-warning-option \
 NEW_CLANG_CPPFLAGS := $(NEW_CLANG_CFLAGS)
 
 # Flags passed to linker (ld) of all C and C targets compiled with CLANG
-NEW_CLANG_LDFLAGS := -Wl,-O1 -Wl,--as-needed
+NEW_CLANG_LDFLAGS := -Wl,-O1 -Wl,--sort-common
 
 # Flags that are used by GCC, but are unknown to CLANG. If you get "argument unused during compilation" error, add the flag here
 NEW_CLANG_UNKNOWN_FLAGS := \
@@ -184,7 +184,10 @@ LOCAL_DISABLE_KRAIT := \
     libbt-utils \
     libosi \
     libtinyxml2 \
-    libbt-qcom_sbc_decoder
+    libbt-qcom_sbc_decoder \
+    android.bluetooth.client.map \
+    bt_did.conf \
+    auto_pair_devlist.conf
 
 KRAIT_FLAGS := \
     -mcpu=cortex-a15 \

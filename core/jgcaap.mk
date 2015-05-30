@@ -14,7 +14,7 @@ ALIGNED = -O2 -floop-flatten -floop-parallelize-all -ftree-loop-linear -floop-in
 NEW_GCC_CPPFLAGS := $(NEW_GCC_CFLAGS)
 
 # Flags passed to linker (ld) of all C and C targets compiled with GCC
-NEW_GCC_LDFLAGS := -Wl,-O2 -Wl,--sort-common
+NEW_GCC_LDFLAGS := -Wl,-O1 -Wl,--sort-common
 
 
 # CLANG
@@ -186,7 +186,8 @@ KRAIT_FLAGS := \
     -mcpu=cortex-a15 \
     -mtune=cortex-a15 \
     -mfpu=neon \
-    -march=armv7-a
+    -march=armv7-a \
+    -mfpu=vfpv4
 
 
 #####################

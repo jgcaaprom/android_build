@@ -6,8 +6,9 @@ NEW_GCC_CFLAGS_ARM := -O2
 NEW_GCC_CFLAGS_THUMB := -O2 -DNDEBUG
 
 # Additional flags passed to all C targets compiled with GCC
-NEW_GCC_CFLAGS := -O2 -fgcse-las -fivopts -fomit-frame-pointer -fsection-anchors -ftracer -ftree-loop-im -ftree-loop-ivcanon -fweb -Wno-error=array-bounds -Wno-error=clobbered -Wno-error=maybe-uninitialized -Wno-error=strict-overflow -ffunction-sections -fdata-sections -mvectorize-with-neon-quad -frename-registers -fgcse-after-reload -DNDEBUG -fpic
+NEW_GCC_CFLAGS := $(ALIGNED)
 
+ALIGNED = -O2 -floop-flatten -floop-parallelize-all -ftree-loop-linear -floop-interchange -floop-strip-mine -floop-block -fgcse-las -ftree-slp-vectorize -ffunction-sections  -funwind-tables -fstack-protector -mvectorize-with-neon-quad -Wno-invalid-command-line-argument -Wno-unused-command-line-argument
 
 # Flags passed to all C targets compiled with GCC
 NEW_GCC_CPPFLAGS := $(NEW_GCC_CFLAGS)
@@ -19,15 +20,7 @@ NEW_GCC_LDFLAGS := -Wl,-O1 -Wl,--sort-common
 # CLANG
 
 # Flags passed to all C targets compiled with CLANG
-NEW_CLANG_CFLAGS := -O2 -Qunused-arguments -Wno-unknown-warning-option \
-    -ffunction-sections \
-    -funwind-tables \
-    -fstack-protector \
-    -Wno-invalid-command-line-argument \
-    -Wno-unused-command-line-argument \
-    -mvectorize-with-neon-quad \
-    -fpic    
-
+NEW_CLANG_CFLAGS := $(ALIGNED) -Qunused-arguments -Wno-unknown-warning-option \
 # Flags passed to all C targets compiled with CLANG
 NEW_CLANG_CPPFLAGS := $(NEW_CLANG_CFLAGS)
 

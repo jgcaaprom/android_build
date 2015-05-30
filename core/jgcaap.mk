@@ -1,43 +1,38 @@
 #Most of the ideas are from Archi I just used his organization to be easier to try out new flags as also his on. All this flag optimization come from his idea. where you can find more at: https://github.com/ArchiDroid/android_build/commit/a062cc61184950df02c39a038c5bfaef5a8b268c
 # General optimization level of target ARM compiled with GCC. Default: -O2
-NEW_GCC_CFLAGS_ARM := -O3
+NEW_GCC_CFLAGS_ARM := -O2
 
 # General optimization level of target THUMB compiled with GCC. Default: -Os
-NEW_GCC_CFLAGS_THUMB := -O3 -DNDEBUG  -fno-omit-frame-pointer -marm
+NEW_GCC_CFLAGS_THUMB := -O2 -DNDEBUG
 
 # Additional flags passed to all C targets compiled with GCC
-NEW_GCC_CFLAGS := -O3 -fgcse-las -fivopts -fomit-frame-pointer -fsection-anchors -ftracer -ftree-loop-im -ftree-loop-ivcanon -fweb -Wno-error=array-bounds -Wno-error=clobbered -Wno-error=maybe-uninitialized -Wno-error=strict-overflow -ffunction-sections -fdata-sections -mvectorize-with-neon-quad -frename-registers -fgcse-after-reload  -DNDEBUG  -fno-omit-frame-pointer 
+NEW_GCC_CFLAGS := -O2 -fgcse-las -fivopts -fomit-frame-pointer -fsection-anchors -ftracer -ftree-loop-im -ftree-loop-ivcanon -fweb -Wno-error=array-bounds -Wno-error=clobbered -Wno-error=maybe-uninitialized -Wno-error=strict-overflow -ffunction-sections -fdata-sections -mvectorize-with-neon-quad -frename-registers -fgcse-after-reload -DNDEBUG -fpic
 
 
 # Flags passed to all C targets compiled with GCC
 NEW_GCC_CPPFLAGS := $(NEW_GCC_CFLAGS)
 
 # Flags passed to linker (ld) of all C and C targets compiled with GCC
-NEW_GCC_LDFLAGS := -Wl,--sort-common
+NEW_GCC_LDFLAGS := -Wl,-O1 -Wl,--as-needed
 
 
 # CLANG
 
 # Flags passed to all C targets compiled with CLANG
-NEW_CLANG_CFLAGS := -O3 -Qunused-arguments -Wno-unknown-warning-option -fpic \
+NEW_CLANG_CFLAGS := -O2 -Qunused-arguments -Wno-unknown-warning-option \
     -ffunction-sections \
     -funwind-tables \
     -fstack-protector \
     -Wno-invalid-command-line-argument \
     -Wno-unused-command-line-argument \
-    -no-canonical-prefixes \
-    -fno-integrated-as \
-    -mhard-float \
-    -D_NDK_MATH_NO_SOFTFP=1
+    -mvectorize-with-neon-quad \
+    -fpic    
 
 # Flags passed to all C targets compiled with CLANG
 NEW_CLANG_CPPFLAGS := $(NEW_CLANG_CFLAGS)
 
 # Flags passed to linker (ld) of all C and C targets compiled with CLANG
-NEW_CLANG_LDFLAGS := -Wl,--sort-common -no-canonical-prefixes \
-    -Wl,--fix-cortex-a8 \
-    -Wl,--no-warn-mismatch \
-    -lm_hard
+NEW_CLANG_LDFLAGS := -Wl,-O1 -Wl,--as-needed
 
 # Flags that are used by GCC, but are unknown to CLANG. If you get "argument unused during compilation" error, add the flag here
 NEW_CLANG_UNKNOWN_FLAGS := \
@@ -67,7 +62,8 @@ NEW_CLANG_UNKNOWN_FLAGS := \
   -ftree-loop-ivcanon \
   -funsafe-loop-optimizations \
   -fweb \
-  -fno-omit-frame-pointer 
+  -fno-omit-frame-pointer \
+  -fpic
 
 
 ##########################
@@ -192,8 +188,9 @@ LOCAL_DISABLE_KRAIT := \
 
 KRAIT_FLAGS := \
     -mcpu=cortex-a15 \
-    -mtune=cortex-a15     
-
+    -mtune=cortex-a15 \
+    -mfpu=neon \
+    -march=armv7-a
 
 
 #####################

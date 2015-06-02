@@ -14,7 +14,7 @@ ALIGNED = -O2 -floop-flatten -floop-parallelize-all -ftree-loop-linear -floop-in
 NEW_GCC_CPPFLAGS := $(NEW_GCC_CFLAGS)
 
 # Flags passed to linker (ld) of all C and C targets compiled with GCC
-NEW_GCC_LDFLAGS := -Wl,-O1 -Wl,--sort-common
+NEW_GCC_LDFLAGS := -Wl,-O1 -Wl,--sort-common Wl,--relax -Wl,--gc-sections
 
 
 # CLANG
@@ -25,7 +25,7 @@ NEW_CLANG_CFLAGS := $(ALIGNED) -Qunused-arguments -Wno-unknown-warning-option \
 NEW_CLANG_CPPFLAGS := $(NEW_CLANG_CFLAGS)
 
 # Flags passed to linker (ld) of all C and C targets compiled with CLANG
-NEW_CLANG_LDFLAGS := -Wl,-O1 -Wl,--sort-common
+NEW_CLANG_LDFLAGS := -Wl,-O1 -Wl,--sort-common Wl,--relax -Wl,--gc-sections
 
 # Flags that are used by GCC, but are unknown to CLANG. If you get "argument unused during compilation" error, add the flag here
 NEW_CLANG_UNKNOWN_FLAGS := \
@@ -842,7 +842,7 @@ LLVM_TOOLCHAIN_ROOT := $(NDK_ROOT)/toolchains/$(LLVM_NAME)
 LLVM_TOOLCHAIN_PREBUILT_ROOT := $(call host-prebuilt-tag,$(LLVM_TOOLCHAIN_ROOT))
 LLVM_TOOLCHAIN_PREFIX := $(LLVM_TOOLCHAIN_PREBUILT_ROOT)/bin/
 
-TOOLCHAIN_VERSION := 4.8
+TOOLCHAIN_VERSION := 5.1
 TOOLCHAIN_NAME := arm-linux-androideabi-$(TOOLCHAIN_VERSION)
 TOOLCHAIN_ROOT := $(NDK_ROOT)/toolchains/$(TOOLCHAIN_NAME)
 TOOLCHAIN_PREBUILT_ROOT := $(call host-prebuilt-tag,$(TOOLCHAIN_ROOT))

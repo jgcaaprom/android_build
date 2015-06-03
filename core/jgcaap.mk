@@ -8,24 +8,25 @@ NEW_GCC_CFLAGS_THUMB := -O2 -DNDEBUG
 # Additional flags passed to all C targets compiled with GCC
 NEW_GCC_CFLAGS := $(ALIGNED) -DNDEBUG
 
-ALIGNED = -O2 -floop-flatten -floop-parallelize-all -ftree-loop-linear -floop-interchange -floop-strip-mine -floop-block -fgcse-las -ftree-slp-vectorize -ffunction-sections  -funwind-tables -fstack-protector -ftree-vectorize -fpredictive-commoning -fgcse-las -fgcse-lm -fgcse-sm -fsched-spec-load -Wno-invalid-command-line-argument -Wno-unused-command-line-argument
+ALIGNED = -O2 -floop-flatten -floop-parallelize-all -ftree-loop-linear -floop-interchange -floop-strip-mine -floop-block -fgcse-las -ftree-slp-vectorize -ffunction-sections  -funwind-tables -fstack-protector -ftree-vectorize -fpredictive-commoning -fgcse-las -fgcse-lm -fgcse-sm -fsched-spec-load -Wno-invalid-command-line-argument -Wno-unused-command-line-argument -falign-functions=16 -falign-loops=16 
 
 # Flags passed to all C targets compiled with GCC
 NEW_GCC_CPPFLAGS := $(NEW_GCC_CFLAGS)
 
 # Flags passed to linker (ld) of all C and C targets compiled with GCC
-NEW_GCC_LDFLAGS := -Wl,-O1 -Wl,--sort-common
+NEW_GCC_LDFLAGS := -Wl,-O1 -Wl,--sort-common Wl,--relax -Wl,--gc-sections
 
 
 # CLANG
 
 # Flags passed to all C targets compiled with CLANG
-NEW_CLANG_CFLAGS := $(ALIGNED) -Qunused-arguments -Wno-unknown-warning-option \
+NEW_CLANG_CFLAGS := $(ALIGNED) -Qunused-arguments -Wno-unknown-warning-option -mcpu=krait
+
 # Flags passed to all C targets compiled with CLANG
 NEW_CLANG_CPPFLAGS := $(NEW_CLANG_CFLAGS)
 
 # Flags passed to linker (ld) of all C and C targets compiled with CLANG
-NEW_CLANG_LDFLAGS := -Wl,-O1 -Wl,--sort-common
+NEW_CLANG_LDFLAGS := -Wl,-O1 -Wl,--sort-common Wl,--relax -Wl,--gc-sections
 
 # Flags that are used by GCC, but are unknown to CLANG. If you get "argument unused during compilation" error, add the flag here
 NEW_CLANG_UNKNOWN_FLAGS := \
@@ -186,7 +187,10 @@ KRAIT_FLAGS := \
     -mcpu=cortex-a15 \
     -mtune=cortex-a15 \
     -mfpu=neon \
-    -march=armv7-a 
+    -march=armv7-a \
+    -D__ARM_FEATURE_LPAE=1 \
+    -D__ARM_FEATURE_VFP4=1 \
+    --param l1-cache-size=16 --param l1-cache-line-size=16 --param l2-cache-size=2048
 #    -mfpu=vfpv4 
 
 

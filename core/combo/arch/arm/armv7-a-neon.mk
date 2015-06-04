@@ -7,11 +7,11 @@ ARCH_ARM_HAVE_VFP_D32           := true
 ARCH_ARM_HAVE_NEON              := true
 
 ifneq (,$(filter krait,$(TARGET_$(combo_2nd_arch_prefix)CPU_VARIANT)))
-        arch_variant_cflags := -mfpu=neon-vfpv4 \
-    -march=armv7-a \
-    -D__ARM_FEATURE_LPAE=1 \
-    -D__ARM_FEATURE_VFP4=1 \
-    --param l1-cache-size=16 --param l1-cache-line-size=16 --param l2-cache-size=2048
+        arch_variant_cflags := -mfpu=neon \
+                               -march=armv7-a \
+                               -D__ARM_FEATURE_LPAE=1 \
+                               -D__ARM_FEATURE_VFP4=1 \
+                               -mfloat-abi=softfp
 else
 ifeq ($(strip $(TARGET_$(combo_2nd_arch_prefix)CPU_VARIANT)),cortex-a9)
 	arch_variant_cflags := -mcpu=cortex-a9
@@ -26,6 +26,7 @@ ifneq (,$(filter cortex-a15 denver,$(TARGET_$(combo_2nd_arch_prefix)CPU_VARIANT)
         arch_variant_cflags := -mcpu=cortex-a15
 else
 	arch_variant_cflags := -march=armv7-a
+endif
 endif
 endif
 endif

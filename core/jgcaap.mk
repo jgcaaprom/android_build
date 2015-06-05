@@ -1,6 +1,6 @@
 #Most of the ideas are from Archi I just used his organization to be easier to try out new flags as also his on. All this flag optimization come from his idea. where you can find more at: https://github.com/ArchiDroid/android_build/commit/a062cc61184950df02c39a038c5bfaef5a8b268c
 # General optimization level of target ARM compiled with GCC. Default: -O2
-NEW_GCC_CFLAGS_ARM := -O2
+NEW_GCC_CFLAGS_ARM := -O2 $(CHIP)
 
 # General optimization level of target THUMB compiled with GCC. Default: -Os
 NEW_GCC_CFLAGS_THUMB := -O2 -DNDEBUG
@@ -8,10 +8,11 @@ NEW_GCC_CFLAGS_THUMB := -O2 -DNDEBUG
 # Additional flags passed to all C targets compiled with GCC
 NEW_GCC_CFLAGS := $(ALIGNED) -DNDEBUG
 
-ALIGNED = -O2 -floop-flatten -floop-parallelize-all -ftree-loop-linear -floop-interchange -floop-strip-mine -floop-block -fgcse-las -ftree-slp-vectorize -ffunction-sections  -funwind-tables -fstack-protector -ftree-vectorize -fpredictive-commoning -fgcse-las -fgcse-lm -fgcse-sm -fsched-spec-load -Wno-invalid-command-line-argument -Wno-unused-command-line-argument
+ALIGNED = -O2 -floop-flatten -floop-parallelize-all -ftree-loop-linear -floop-interchange -floop-strip-mine -floop-block -fgcse-las -ftree-slp-vectorize -ffunction-sections  -funwind-tables -fstack-protector -ftree-vectorize -fpredictive-commoning -fgcse-las -fgcse-lm -fgcse-sm -fsched-spec-load -Wno-invalid-command-line-argument -Wno-unused-command-line-argument $(CHIP) $(INS)
 
-#-falign-functions=16 -falign-loops=16 
-#--param l1-cache-size=16 --param l1-cache-line-size=16 --param l2-cache-size=2048
+INS = -falign-functions=64  -falign-jumps=64 -falign-loops=64  -falign-labels=64
+
+CHIP = --param l1-cache-size=64 --param l1-cache-line-size=64 --param l2-cache-size=2048
 
 # Flags passed to all C targets compiled with GCC
 NEW_GCC_CPPFLAGS := $(NEW_GCC_CFLAGS)
@@ -31,7 +32,7 @@ NEW_CLANG_CFLAGS := $(ALIGNED) -Qunused-arguments -Wno-unknown-warning-option
 NEW_CLANG_CPPFLAGS := $(NEW_CLANG_CFLAGS)
 
 # Flags passed to linker (ld) of all C and C targets compiled with CLANG
-NEW_CLANG_LDFLAGS := -Wl,-O1 -Wl,--sort-common Wl,--relax
+NEW_CLANG_LDFLAGS := -Wl,-O1 -Wl,--sort-common
 
 # Flags that are used by GCC, but are unknown to CLANG. If you get "argument unused during compilation" error, add the flag here
 NEW_CLANG_UNKNOWN_FLAGS := \

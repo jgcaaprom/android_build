@@ -12,6 +12,7 @@ ifneq (,$(filter krait,$(TARGET_$(combo_2nd_arch_prefix)CPU_VARIANT)))
                                -D__ARM_FEATURE_LPAE=1 \
                                -D__ARM_FEATURE_VFP4=1 \
                                -mfloat-abi=softfp
+                               --param l1-cache-size=64 --param l1-cache-line-size=64 --param l2-cache-size=2048
 else
 ifeq ($(strip $(TARGET_$(combo_2nd_arch_prefix)CPU_VARIANT)),cortex-a9)
 	arch_variant_cflags := -mcpu=cortex-a9

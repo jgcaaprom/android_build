@@ -3,7 +3,7 @@
 NEW_GCC_CFLAGS_ARM := -O2 $(CHIP)
 
 # General optimization level of target THUMB compiled with GCC. Default: -Os
-NEW_GCC_CFLAGS_THUMB := -Os -DNDEBUG
+NEW_GCC_CFLAGS_THUMB := -O2 -DNDEBUG
 
 # Additional flags passed to all C targets compiled with GCC
 NEW_GCC_CFLAGS := $(ALIGNED) -DNDEBUG
@@ -103,20 +103,9 @@ LOCAL_ENABLE_NEST := \
     libdl \
     libm \
     tzdata \
-    bionic-benchmarks 
-
-
-#    libclearsilverregex \
-#    libuclibcrpc \
-#    libbusybox \
-#    busybox \
-#    libclearsilverregex \
-#    libcutils \
-#    libuclibcrpc \
-#    libselinux \
-#    libsqlite3_android \
-#    libsqlite3_phone_number_utils_test */
-
+    bionic-benchmarks \
+    libsqlite3_phone_number_utils_test \
+    libsqlite3_android
 #############################
 #  END FLOOP_NEST_OPTIMIZE  #
 #############################

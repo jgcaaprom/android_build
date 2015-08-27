@@ -11,7 +11,7 @@ ifneq (,$(filter cortex-a15 denver krait,$(TARGET_$(combo_2nd_arch_prefix)CPU_VA
 
 	# Fake an ARM compiler flag as these processors support LPAE which GCC/clang
 	# don't advertise.
-	arch_variant_cflags += -D__ARM_FEATURE_LPAE=1
+	arch_variant_cflags += -D__ARM_FEATURE_LPAE=1 -D__ARM_FEATURE_VFP4=1
 	arch_variant_ldflags := \
 		-Wl,--no-fix-cortex-a8
 else

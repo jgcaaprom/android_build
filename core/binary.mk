@@ -97,6 +97,90 @@ else
   endif
 endif
 
+#####################
+# STRICT_ALIASING   #
+#####################
+ifeq ($(STRICT_ALIASING),true)
+ifneq ($(filter $(LOCAL_DISABLE_STRICT),$(LOCAL_MODULE)),)
+
+ifdef LOCAL_CONLYFLAGS
+LOCAL_CONLYFLAGS += \
+	$(DISABLE_STRICT)
+else
+LOCAL_CONLYFLAGS := \
+	$(DISABLE_STRICT)
+endif
+ifdef LOCAL_CPPFLAGS
+LOCAL_CPPFLAGS += \
+	$(DISABLE_STRICT)
+else
+LOCAL_CPPFLAGS := \
+	$(DISABLE_STRICT)
+endif
+
+else
+
+ifdef LOCAL_CONLYFLAGS
+LOCAL_CONLYFLAGS += \
+	$(STRICT_ALIASING_FLAGS)
+else
+LOCAL_CONLYFLAGS := \
+	$(STRICT_ALIASING_FLAGS)
+endif
+ifdef LOCAL_CPPFLAGS
+LOCAL_CPPFLAGS += \
+	$(STRICT_ALIASING_FLAGS)
+else
+LOCAL_CPPFLAGS := \
+	$(STRICT_ALIASING_FLAGS)
+endif
+ifndef LOCAL_CLANG
+LOCAL_CONLYFLAGS += \
+	$(STRICT_GCC_LEVEL)
+LOCAL_CPPFLAGS += \
+	$(STRICT_GCC_LEVEL)
+else
+LOCAL_CONLYFLAGS += \
+	$(STRICT_CLANG_LEVEL)
+LOCAL_CPPFLAGS += \
+	$(STRICT_CLANG_LEVEL)
+endif
+
+endif
+endif
+#########################
+#  END STRICT_ALIASING  #
+#########################
+
+#################
+# KRAIT_TUNINGS #
+#################
+ifeq ($(KRAIT_TUNINGS),true)
+ifndef LOCAL_IS_HOST_MODULE
+ifeq ($(filter $(LOCAL_DISABLE_KRAIT), $(LOCAL_MODULE)),)
+
+ifdef LOCAL_CONLYFLAGS
+LOCAL_CONLYFLAGS += \
+	$(KRAIT_FLAGS)
+else
+LOCAL_CONLYFLAGS := \
+	$(KRAIT_FLAGS)
+endif
+ifdef LOCAL_CPPFLAGS
+LOCAL_CPPFLAGS += \
+	$(KRAIT_FLAGS)
+else
+LOCAL_CPPFLAGS := \
+	$(KRAIT_FLAGS)
+endif
+
+endif
+endif
+endif
+########################
+#  END KRAIT_TUNINGS   #
+########################
+
 # The following LOCAL_ variables will be modified in this file.
 # Because the same LOCAL_ variables may be used to define modules for both 1st arch and 2nd arch,
 # we can't modify them in place.

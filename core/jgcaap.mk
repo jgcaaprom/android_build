@@ -9,7 +9,9 @@ NEW_GCC_CFLAGS_THUMB := -Os -DNDEBUG
 NEW_GCC_CFLAGS := $(ALIGNED) -DNDEBUG
 
 
-ALIGNED = -O2 -Wno-invalid-command-line-argument -Wno-unused-command-line-argument -mcpu=cortex-a15 -mtune=cortex-a15
+ALIGNED = -O2 -Wno-invalid-command-line-argument -Wno-error=attributes -Wno-unused-command-line-argument -mcpu=cortex-a15 -mtune=cortex-a15 -fweb -ftracer -fgcse-las
+
+# -fgraphite -fgraphite-identity
 #-floop-flatten -floop-parallelize-all -ftree-loop-linear -floop-interchange -floop-strip-mine -floop-block -fgcse-las -ftree-slp-vectorize -ffunction-sections  -funwind-tables -fstack-protector -ftree-vectorize -fpredictive-commoning -fgcse-las -fgcse-lm -fgcse-sm -fsched-spec-load -Wno-invalid-command-line-argument -Wno-unused-command-line-argument
 
 # Flags passed to all C targets compiled with GCC
@@ -64,7 +66,10 @@ NEW_CLANG_UNKNOWN_FLAGS := \
   -fno-early-inlining \
   -fno-tree-copy-prop \
   -fno-tree-loop-optimize \
-  -fno-move-loop-invariants 
+  -fno-move-loop-invariants \
+  -fno-fast-math \
+  -fgraphite \
+  -fgraphite-identity
 
 #########################
 #    KRAIT_TUNINGS      #
@@ -137,6 +142,7 @@ LOCAL_DISABLE_STRICT := \
     components_data_reduction_proxy_browser_gyp \
     libunwind \
     libc_malloc \
+    libc_freebsd \
     e2fsck \
     mke2fs \
     tune2fs \
@@ -207,6 +213,7 @@ LOCAL_DISABLE_STRICT := \
     libc_openbsd \
     libc \
     libc_nomalloc \
+    libc_common \
     patchoat \
     dex2oat \
     libart \

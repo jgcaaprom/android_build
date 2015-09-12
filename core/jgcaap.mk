@@ -9,7 +9,7 @@ NEW_GCC_CFLAGS_THUMB := -Os -DNDEBUG
 NEW_GCC_CFLAGS := $(ALIGNED) -DNDEBUG
 
 
-ALIGNED = -O2 -Wno-invalid-command-line-argument -Wno-error=attributes -Wno-unused-command-line-argument -mcpu=cortex-a15 -mtune=cortex-a15 -fweb -ftracer -fgcse-las
+ALIGNED = -O2 -Wno-invalid-command-line-argument -Wno-error=attributes -Wno-unused-command-line-argument  -fweb -ftracer -fgcse-las
 
 # -fgraphite -fgraphite-identity
 #-floop-flatten -floop-parallelize-all -ftree-loop-linear -floop-interchange -floop-strip-mine -floop-block -fgcse-las -ftree-slp-vectorize -ffunction-sections  -funwind-tables -fstack-protector -ftree-vectorize -fpredictive-commoning -fgcse-las -fgcse-lm -fgcse-sm -fsched-spec-load -Wno-invalid-command-line-argument -Wno-unused-command-line-argument

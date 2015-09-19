@@ -7,7 +7,7 @@ ARCH_ARM_HAVE_VFP_D32           := true
 ARCH_ARM_HAVE_NEON              := true
 
 ifneq (,$(filter cortex-a15 denver krait,$(TARGET_$(combo_2nd_arch_prefix)CPU_VARIANT)))
-	arch_variant_cflags := -mcpu=cortex-a15 -mfpu=neon-vfpv4
+	arch_variant_cflags := -mcpu=cortex-a15 -mfpu=neon-vfpv4 -mtune=cortex-a15
 
 	# Fake an ARM compiler flag as these processors support LPAE which GCC/clang
 	# don't advertise.

@@ -26,7 +26,8 @@ PRODUCT_PACKAGES := \
     OneTimeInitializer \
     Provision \
     SystemUI \
-    WallpaperCropper
+    WallpaperCropper \
+    Camera2
 
 PRODUCT_PACKAGES += \
     clatd \

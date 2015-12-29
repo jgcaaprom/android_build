@@ -14,24 +14,67 @@
 
 # Polly flags for use with Clang
 POLLY := -mllvm -polly \
-         -mllvm -polly-parallel -lgomp \
-         -mllvm -polly-parallel-force \
-	 -mllvm -polly-allow-nonaffine=1\
-         -mllvm -polly-ast-detect-parallel \
-         -mllvm -polly-no-early-exit \
-         -mllvm -polly-vectorizer=stripmine \
-         -mllvm -polly-opt-fusion=max \
-         -mllvm -polly-opt-maximize-bands=yes
+  -mllvm -polly-parallel -lgomp \
+  -mllvm -polly-parallel-force \
+  -mllvm -polly-allow-nonaffine=1\
+  -mllvm -polly-ast-detect-parallel \
+  -mllvm -polly-no-early-exit \
+  -mllvm -polly-vectorizer=polly \
+  -mllvm -polly-opt-fusion=max \
+  -mllvm -polly-opt-maximize-bands=yes \
+  -mllvm -polly-run-dce
 
-DISABLE_POLLY:= \
-                $(LOCAL_DISABLE_POLLY)
+# Enable version specific Polly flags.
+ifeq ($(LLVM_PREBUILTS_VERSION),3.8)
+  POLLY += -mllvm -polly-position=after-loopopt
+endif
+
+# Disable modules that don't work with DragonTC. Split up by arch.
+DISABLE_DTC_arm :=
+DISABLE_DTC_arm64 :=
+
+# Set DISABLE_DTC based on arch
+DISABLE_DTC := \
+  $(DISABLE_DTC_$(TARGET_ARCH)) \
+  $(LOCAL_DISABLE_DTC)
+
+# Enable DragonTC on GCC modules. Split up by arch.
+ENABLE_DTC_arm :=
+ENABLE_DTC_arm64 :=
+
+# Set ENABLE_DTC based on arch
+ENABLE_DTC := \
+  $(ENABLE_DTC_$(TARGET_ARCH)) \
+  $(LOCAL_ENABLE_DTC)
+
+# Disable modules that dont work with Polly. Split up by arch.
+DISABLE_POLLY_arm := 
+DISABLE_POLLY_arm64 := \
+  libpng \
+  libfuse \
+  libfuse_static 
+
+# Set DISABLE_POLLY based on arch
+DISABLE_POLLY := \
+  $(DISABLE_POLLY_$(TARGET_ARCH)) \
+  $(DISABLE_DTC) \
+  $(LOCAL_DISABLE_POLLY)
+
+# Include ARM Mode if requested
+ifeq ($(USE_ARM_MODE),true)
+  include $(BUILD_SYSTEM)/arm.mk
+endif
 
 # Make sure that the current module is not blacklisted. Polly is not
 # used on host modules to reduce build time and unnecessary hassle.
 # Optimizations on host do not affect ROM performance anyways.
 ifneq (,$(filter true,$(LOCAL_CLANG)))
-  ifeq (,$(filter true,$(LOCAL_IS_HOST_MODULE)))
-    ifneq (1,$(words $(filter $(DISABLE_POLLY_TARGET),$(LOCAL_MODULE))))
+  ifeq (1,$(words $(filter $(DISABLE_DTC),$(LOCAL_MODULE))))
+    my_cc := $(AOSP_CLANG)
+    my_cxx := $(AOSP_CLANG_CXX)
+  endif
+  ifndef LOCAL_IS_HOST_MODULE
+    ifneq (1,$(words $(filter $(DISABLE_POLLY),$(LOCAL_MODULE))))
       ifdef LOCAL_CFLAGS
         LOCAL_CFLAGS += -O2
       else
@@ -44,5 +87,11 @@ ifneq (,$(filter true,$(LOCAL_CLANG)))
         LOCAL_CFLAGS := -O2
       endif
     endif
+  endif
+else
+  ifeq (1,$(words $(filter $(ENABLE_DTC),$(LOCAL_MODULE))))
+    my_cc := $(CLANG)
+    my_cxx := $(CLANG_CXX)
+    my_clang := true
   endif
 endif

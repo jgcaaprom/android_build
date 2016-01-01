@@ -33,9 +33,9 @@ ifneq (,$(filter true,$(LOCAL_CLANG)))
   ifeq (,$(filter true,$(LOCAL_IS_HOST_MODULE)))
     ifneq (1,$(words $(filter $(DISABLE_POLLY_TARGET),$(LOCAL_MODULE))))
       ifdef LOCAL_CFLAGS
-        LOCAL_CFLAGS += -O3 $(POLLY)
+        LOCAL_CFLAGS += -O2
       else
-        LOCAL_CFLAGS := -O3 $(POLLY)
+        LOCAL_CFLAGS := -O2
       endif
     else
       ifdef LOCAL_CFLAGS

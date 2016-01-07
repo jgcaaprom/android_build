@@ -1513,7 +1513,7 @@ endef
 ## Commands for filtering a target executable or library
 ###########################################################
 
-ifneq ($(TARGET_BUILD_VARIANT),user)
+ifeq ($(TARGET_BUILD_VARIANT),eng)
   TARGET_STRIP_EXTRA = && $(PRIVATE_OBJCOPY) --add-gnu-debuglink=$< $@
   TARGET_STRIP_KEEP_SYMBOLS_EXTRA = --add-gnu-debuglink=$<
 endif

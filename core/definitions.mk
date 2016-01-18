@@ -1835,9 +1835,9 @@ $(if $(PRIVATE_RMTYPEDEFS), $(hide) $(RMTYPEDEFS) -v $(PRIVATE_CLASS_INTERMEDIAT
 $(if $(PRIVATE_JAR_MANIFEST), \
     $(hide) sed -e 's/%BUILD_NUMBER%/$(BUILD_NUMBER)/' \
             $(PRIVATE_JAR_MANIFEST) > $(dir $@)/manifest.mf && \
-        jar -cfm $@ $(dir $@)/manifest.mf \
+        jar -0cfm $@ $(dir $@)/manifest.mf \
             -C $(PRIVATE_CLASS_INTERMEDIATES_DIR) ., \
-    $(hide) jar -cf $@ -C $(PRIVATE_CLASS_INTERMEDIATES_DIR) .)
+    $(hide) jar -0cf $@ -C $(PRIVATE_CLASS_INTERMEDIATES_DIR) .)
 $(if $(PRIVATE_EXTRA_JAR_ARGS),$(call add-java-resources-to,$@))
 endef
 
@@ -2020,7 +2020,7 @@ endef
 define create-empty-package-at
 @mkdir -p $(dir $(1))
 $(hide) touch $(dir $(1))zipdummy
-$(hide) (cd $(dir $(1)) && jar cf $(notdir $(1)) zipdummy)
+$(hide) (cd $(dir $(1)) && jar 0cf $(notdir $(1)) zipdummy)
 $(hide) zip -qd $(1) zipdummy
 $(hide) rm $(dir $(1))zipdummy
 endef
@@ -2109,7 +2109,7 @@ endef
 #
 define add-java-resources-to
 $(call dump-words-to-file, $(PRIVATE_EXTRA_JAR_ARGS), $(1).jar-arg-list)
-$(hide) jar uf $(1) @$(1).jar-arg-list
+$(hide) jar 0uf $(1) @$(1).jar-arg-list
 @rm -f $(1).jar-arg-list
 endef
 
@@ -2121,7 +2121,7 @@ define add-carried-jack-resources
         | sed -e "s?^$(PRIVATE_JACK_INTERMEDIATES_DIR)/? -C $(PRIVATE_JACK_INTERMEDIATES_DIR) ?"); \
     if [ -n "$$jack_res_jar_flags" ] ; then \
         echo $$jack_res_jar_flags >$(dir $@)jack_res_jar_flags; \
-        jar uf $@ $$jack_res_jar_flags; \
+        jar 0uf $@ $$jack_res_jar_flags; \
     fi; \
 fi
 endef

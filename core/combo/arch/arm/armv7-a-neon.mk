@@ -42,4 +42,4 @@ endif
 endif
 
 arch_variant_cflags += \
-    -mfloat-abi=hard
+    -mfloat-abi=softfp

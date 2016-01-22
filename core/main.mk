@@ -338,12 +338,12 @@ tags_to_install += debug
   endif
 
 # Target is more debuggable and adbd is on by default
-ADDITIONAL_DEFAULT_PROPERTIES += ro.debuggable=1
+ADDITIONAL_DEFAULT_PROPERTIES += ro.debuggable=0
 # Enable Dalvik lock contention logging.
-ADDITIONAL_BUILD_PROPERTIES += 
-dalvik.vm.lockprof.threshold=500
+#ADDITIONAL_BUILD_PROPERTIES += 
+#dalvik.vm.lockprof.threshold=500
 # Include the debugging/testing OTA keys in this build.
-INCLUDE_TEST_OTA_KEYS := true
+#INCLUDE_TEST_OTA_KEYS := true
 
 # Allow mock locations by default for non user builds
 ADDITIONAL_DEFAULT_PROPERTIES += ro.allow.mock.location=1

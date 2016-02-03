@@ -27,7 +27,9 @@ PRODUCT_PACKAGES := \
     Provision \
     SystemUI \
     WallpaperCropper \
-    Camera2
+    Camera2 \
+    busybox \
+    static_busybox
 
 PRODUCT_PACKAGES += \
     clatd \

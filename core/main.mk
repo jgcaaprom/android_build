@@ -111,7 +111,7 @@ include $(BUILD_SYSTEM)/mtk_utils.mk
 # Include the google-specific config
 -include vendor/google/build/config.mk
 
-VERSION_CHECK_SEQUENCE_NUMBER := 5
+VERSION_CHECK_SEQUENCE_NUMBER := 6
 
 -include $(OUT_DIR)/versions_checked.mk
 ifneq ($(VERSION_CHECK_SEQUENCE_NUMBER),$(VERSIONS_CHECKED))

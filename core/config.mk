@@ -742,3 +742,5 @@ $(eval include vendor/cm/sepolicy/sepolicy.mk)
 endif
 
 include $(BUILD_SYSTEM)/dumpvar.mk
+
+USE_PROGUARD_OPTIMIZATIONS := true

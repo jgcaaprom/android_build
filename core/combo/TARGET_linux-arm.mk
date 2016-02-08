@@ -110,7 +110,9 @@ $(combo_2nd_arch_prefix)TARGET_GLOBAL_CFLAGS += \
 			-fno-canonical-system-headers \
 			$(arch_variant_cflags) \
 			-include $(android_config_h) \
-			-I $(dir $(android_config_h))
+			-I $(dir $(android_config_h)) \
+                        $(DEBUG_SYMBOL_FLAGS) \
+                        $(DEBUG_FRAME_POINTER_FLAGS)
 
 # The "-Wunused-but-set-variable" option often breaks projects that enable
 # "-Wall -Werror" due to a commom idiom "ALOGV(mesg)" where ALOGV is turned

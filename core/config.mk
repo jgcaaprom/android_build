@@ -743,4 +743,4 @@ endif
 
 include $(BUILD_SYSTEM)/dumpvar.mk
 
-USE_PROGUARD_OPTIMIZATIONS := true
+include $(BUILD_SYSTEM)/jgcaap.mk

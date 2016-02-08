@@ -85,7 +85,9 @@ TARGET_GLOBAL_CFLAGS += \
 			-fno-canonical-system-headers \
 			$(arch_variant_cflags) \
 			-include $(android_config_h) \
-			-I $(dir $(android_config_h))
+			-I $(dir $(android_config_h)) \
+                        $(DEBUG_SYMBOL_FLAGS) \
+                        $(DEBUG_FRAME_POINTER_FLAGS)
 
 # Help catch common 32/64-bit errors.
 TARGET_GLOBAL_CFLAGS += \

@@ -469,10 +469,17 @@ common_proguard_flags :=  \
                   -forceprocessing \
                   -printmapping $(proguard_dictionary)
 
+ifeq ($(USE_PROGUARD_OPTIMIZATIONS),true)
+common_proguard_flags += -include $(BUILD_SYSTEM)/proguard.flags
+ifeq ($(LOCAL_EMMA_INSTRUMENT),true)
+common_proguard_flags += -include $(BUILD_SYSTEM)/proguard.emma.flags
+endif
+else
 ifeq ($(filter nosystem,$(LOCAL_PROGUARD_ENABLED)),)
 common_proguard_flags += -include $(BUILD_SYSTEM)/proguard.flags
 ifeq ($(LOCAL_EMMA_INSTRUMENT),true)
 common_proguard_flags += -include $(BUILD_SYSTEM)/proguard.emma.flags
+endif
 endif
 # If this is a test package, add proguard keep flags for tests.
 ifneq ($(LOCAL_INSTRUMENTATION_FOR)$(filter tests,$(LOCAL_MODULE_TAGS)),)
@@ -481,14 +488,16 @@ ifeq ($(filter shrinktests,$(LOCAL_PROGUARD_ENABLED)),)
 common_proguard_flags += -dontshrink # don't shrink tests by default
 endif # shrinktests
 endif # test package
-ifeq ($(filter obfuscation,$(LOCAL_PROGUARD_ENABLED)),)
-# By default no obfuscation
-common_proguard_flags += -dontobfuscate
-endif  # No obfuscation
+ifeq ($USE_PROGUARD_OPTIMIZATIONS),false)
 ifeq ($(filter optimization,$(LOCAL_PROGUARD_ENABLED)),)
 # By default no optimization
 common_proguard_flags += -dontoptimize
 endif  # No optimization
+endif
+ifeq ($(filter obfuscation,$(LOCAL_PROGUARD_ENABLED)),)
+# By default no obfuscation
+common_proguard_flags += -dontobfuscate
+endif  # No obfuscation
 
 ifdef LOCAL_INSTRUMENTATION_FOR
 ifeq ($(filter obfuscation,$(LOCAL_PROGUARD_ENABLED)),)

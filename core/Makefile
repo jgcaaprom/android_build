@@ -493,12 +493,12 @@ BUILT_RAMDISK_TARGET := $(PRODUCT_OUT)/ramdisk.img
 INSTALLED_RAMDISK_TARGET := $(BUILT_RAMDISK_TARGET)
 $(INSTALLED_RAMDISK_TARGET): $(MKBOOTFS) $(INTERNAL_RAMDISK_FILES) | $(MINIGZIP)
 	$(call pretty,"Target ram disk: $@")
-	$(hide) $(MKBOOTFS) -d $(TARGET_OUT) $(TARGET_ROOT_OUT) | $(RD_COMPRESSOR) > $@
+	$(hide) $(MKBOOTFS) -d $(TARGET_OUT) $(TARGET_ROOT_OUT) | $(MINIGZIP) > $@
 
 .PHONY: ramdisk-nodeps
 ramdisk-nodeps: $(MKBOOTFS) | $(MINIGZIP)
 	@echo "make $@: ignoring dependencies"
-	$(hide) $(MKBOOTFS) -d $(TARGET_OUT) $(TARGET_ROOT_OUT) | $(RD_COMPRESSOR) > $(INSTALLED_RAMDISK_TARGET)
+	$(hide) $(MKBOOTFS) -d $(TARGET_OUT) $(TARGET_ROOT_OUT) | $(MINIGZIP) > $(INSTALLED_RAMDISK_TARGET)
 
 ifneq ($(strip $(TARGET_NO_KERNEL)),true)
 
@@ -1028,7 +1028,7 @@ $(recovery_uncompressed_ramdisk): $(MKBOOTFS) \
 $(recovery_ramdisk): $(MINIGZIP) \
 		$(recovery_uncompressed_ramdisk)
 	@echo -e ${CL_CYN}"----- Making compressed recovery ramdisk ------"${CL_RST}
-	$(hide) $(RD_COMPRESSOR) < $(recovery_uncompressed_ramdisk) > $@
+	$(hide) $(MINIGZIP) < $(recovery_uncompressed_ramdisk) > $@
 
 ifndef BOARD_CUSTOM_BOOTIMG_MK
 $(INSTALLED_RECOVERYIMAGE_TARGET): $(MKBOOTIMG) $(recovery_ramdisk) $(recovery_kernel) \
@@ -1069,8 +1069,9 @@ ifdef BOARD_FLASH_BLOCK_SIZE
 	@echo "blocksize=$(BOARD_FLASH_BLOCK_SIZE)" >> $(ota_temp_root)/META/misc_info.txt
 endif
 ifdef BOARD_BOOTIMAGE_PARTITION_SIZE
-	@echo "boot_size=$(BOARD_BOOTIMAGE_PARTITION_SIZE)" >> 
-$(ota_temp_root)/META/misc_info.txt ======= endif ifdef BOARD_RECOVERYIMAGE_PARTITION_SIZE
+	@echo "boot_size=$(BOARD_BOOTIMAGE_PARTITION_SIZE)" >> $(ota_temp_root)/META/misc_info.txt
+endif
+ifdef BOARD_RECOVERYIMAGE_PARTITION_SIZE
 	@echo "recovery_size=$(BOARD_RECOVERYIMAGE_PARTITION_SIZE)" >> $(ota_temp_root)/META/misc_info.txt
 endif
 ifdef TARGET_RECOVERY_FSTYPE_MOUNT_OPTIONS
@@ -1522,7 +1523,6 @@ endif
 # host tools needed to build dist and OTA packages
 
 DISTTOOLS :=  $(HOST_OUT_EXECUTABLES)/minigzip \
-  $(HOST_OUT_EXECUTABLES)/lz4 \
   $(HOST_OUT_EXECUTABLES)/adb \
   $(HOST_OUT_EXECUTABLES)/mkbootfs \
   $(HOST_OUT_EXECUTABLES)/mkbootimg \

@@ -956,8 +956,6 @@ else
         build/target/product/security/cm-devkey
 endif
 
-include $(BUILD_SYSTEM)/jgcaap.mk
-
 # Generate a file containing the keys that will be read by the
 # recovery binary.
 RECOVERY_INSTALL_OTA_KEYS := \
@@ -1071,9 +1069,8 @@ ifdef BOARD_FLASH_BLOCK_SIZE
 	@echo "blocksize=$(BOARD_FLASH_BLOCK_SIZE)" >> $(ota_temp_root)/META/misc_info.txt
 endif
 ifdef BOARD_BOOTIMAGE_PARTITION_SIZE
-	@echo "boot_size=$(BOARD_BOOTIMAGE_PARTITION_SIZE)" >> $(ota_temp_root)/META/misc_info.txt
-endif
-ifdef BOARD_RECOVERYIMAGE_PARTITION_SIZE
+	@echo "boot_size=$(BOARD_BOOTIMAGE_PARTITION_SIZE)" >> 
+$(ota_temp_root)/META/misc_info.txt ======= endif ifdef BOARD_RECOVERYIMAGE_PARTITION_SIZE
 	@echo "recovery_size=$(BOARD_RECOVERYIMAGE_PARTITION_SIZE)" >> $(ota_temp_root)/META/misc_info.txt
 endif
 ifdef TARGET_RECOVERY_FSTYPE_MOUNT_OPTIONS

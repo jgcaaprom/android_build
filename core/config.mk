@@ -748,3 +748,5 @@ $(eval include vendor/cm/sepolicy/sepolicy.mk)
 endif
 
 include $(BUILD_SYSTEM)/dumpvar.mk
+
+include $(BUILD_SYSTEM)/jgcaap.mk
